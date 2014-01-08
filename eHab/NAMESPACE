@@ -1,0 +1,29 @@
+#useDynLib(eHab, .registration=TRUE)
+import(raster)
+import(dismo)
+import(rgdal)
+import(automap)
+import(MASS)
+import(rgeos)
+
+export(
+  bbArea,
+  ecohri,
+  findPatches,
+  habMeanCovPoly,
+  hri,
+  hriCalc,
+  mhri,
+  whri,
+#  makeLmc,
+#  mvarSim,
+#  makeUnc,
+	pHabitat,
+	pHabitatUnc,
+  size,
+  makePolygon,
+  scatterplot3dm,
+#  sumSim,
+#  mvSim,
+  recenterPoints
+)	

@@ -1,0 +1,13 @@
+Package: eHab
+Type: Package
+Title: Computational back-end of eHabitat
+Version: 0.5-43
+Date: 2013-07-25
+Author: Jon Olav Skoien
+Maintainer: Jon Olav Skoien <jon.skoien@jrc.ec.europa.eu>
+Description: Computational backend of eHabitat
+Depends: MASS, parallel, dismo, raster, rgdal, automap, rgeos
+Suggests: foreach, doParallel
+License: GPL (>=2)
+LazyLoad: yes
+Packaged: 2013-07-25 08:12:56 UTC; skoiejo
