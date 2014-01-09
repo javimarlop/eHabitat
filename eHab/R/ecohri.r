@@ -419,6 +419,7 @@ if (!is.null(minVar)) {
 }
 if (exists("trr")) attr(res1, "tr") = trr
 res1
+print(res1)
 #file.remove(c(fn7,fn8,fn9,fn10,fn11))->kk2
 #print(paste('temp files removed: ',kk2,sep=''))
 #removeTmpFiles(h=6)

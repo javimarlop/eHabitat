@@ -37,8 +37,7 @@ wdpaid = "WDPA_ID"     # The column name giving the id of the parks/polygons
 ecoID = "eco_id"      # The column name giving the ecoregion id in the ecoregions shapefile
 inddir = "Variables"  # The directory of the tiff files with the indicator variables
 minVar = 1
-nclus = 2 # 6
- # 6 by Javier (14.08.13)
+nclus = 8 # 8 max
 
 
 # The default parameters are the ones above. 
@@ -184,19 +183,21 @@ mecohri = function(ecoreg, ecoregions, ecoregs, ecoID,...) {
     if (is(ress, "try-error")) ress = -999
   } else ress = NULL
   ids = which(ecoreg %in% ecoregs)
-  if (!is.null(ress) && length(ress)>1 && dim(ress$hriRes)[1]!=0) { # changed by Javier (26.07.13) and updated (29.07.13) # ress!=-999
-    print(paste("**** mecohri ", ecoreg, "tiles", attr(ress,"tr")$n, "parks", sum(!is.na(ress$hriRes[,1])), "****"))
-    write(paste("Done ecoreg", ecoreg, "with", Sys.getpid(), 
-                "tiles", attr(ress,"tr")$n, "parks", sum(!is.na(ress$hriRes[,1]))), file = "mecohri2.txt", append = TRUE)
-
+  
+  	# write anyway results to csv file!
 	write.table(ress$hriRes, file = "hriRes.csv",sep=',', append=TRUE, row.names=FALSE,col.names = ifelse(exists("hriRes.csv"), TRUE, FALSE))
 	write.table(ress$hriRes2, file = "hriRes2.csv",sep=',',append=TRUE, row.names=FALSE,col.names = ifelse(exists("hriRes2.csv"), TRUE, FALSE))
 	write.table(ress$hriInRes, file = "hriInRes.csv",sep=',',append=TRUE, row.names=FALSE,col.names = ifelse(exists("hriInRes.csv"), TRUE, FALSE))
 	write.table(ress$hriInRes2, file = "hriInRes2.csv",sep=',',append=TRUE, row.names=FALSE,col.names = ifelse(exists("hriInRes2.csv"), TRUE, FALSE))
 	write.table(ress$errors, file = "errors.csv",sep=',',append=TRUE, row.names=FALSE)
-
+	
+  if (!is.null(ress) && length(ress)>1 && dim(ress$hriRes)[1]!=0) { # changed by Javier (26.07.13) and updated (29.07.13) # ress!=-999
+    print(paste("**** mecohri ", ecoreg, "tiles", attr(ress,"tr")$n, "parks", sum(!is.na(ress$hriRes[,1])), "****"))
+    write(paste("Done ecoreg", ecoreg, "with", Sys.getpid(), 
+                "tiles", attr(ress,"tr")$n, "parks", sum(!is.na(ress$hriRes[,1]))), file = "mecohri2.txt", append = TRUE)
+	
   } else {
-    print(paste("**** mecohri ", ecoreg, "NULL" , "****"))
+    print(paste("**** mecohri ", ecoreg, "NULL?" , "****"))
     write(paste("Done ecoreg", ecoreg, "with", Sys.getpid(), "NULL"), file = "mecohri2.txt", append = TRUE)
   }  
   ress
@@ -221,7 +222,7 @@ ecoregs2 = data.frame(ecoregs = ecoregs, area = sapply(ecoregs,
                                                        FUN = function(x) sum(ecoregions$area[ecoregions@data[,ecoID] == x])))
 ecoregs_tmp = ecoregs2[order(ecoregs2$area, decreasing = TRUE),] # modified by @javier (26.07.13)
 ecoregs_tmp2 = ecoregs_tmp[-ecoregs_tmp$ecoregs<0,] # added by @javier (26.07.13)
-ecoregs = ecoregs_tmp2#[700:803,] # :825 changed by @javier 13.08.13 in order to continue from where it crashed
+ecoregs = ecoregs_tmp2[2,] # changed by @javier
 parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
 
 
