@@ -37,7 +37,7 @@ wdpaid = "WDPA_ID"     # The column name giving the id of the parks/polygons
 ecoID = "eco_id"      # The column name giving the ecoregion id in the ecoregions shapefile
 inddir = "Variables"  # The directory of the tiff files with the indicator variables
 minVar = 1
-nclus = 8 # 8 max
+nclus = 15 # 8 max
 
 
 # The default parameters are the ones above. 
@@ -220,7 +220,8 @@ ecoregs = unique(ecoregions@data[,ecoID])
 ecoregions$area =  sapply(ecoregions@polygons, getAreaPolygons)
 ecoregs2 = data.frame(ecoregs = ecoregs, area = sapply(ecoregs, 
                                                        FUN = function(x) sum(ecoregions$area[ecoregions@data[,ecoID] == x])))
-ecoregs_tmp = ecoregs2#[order(ecoregs2$area, decreasing = TRUE),] # modified by @javier (26.07.13)
+ecoregs2[-827,]->ecoregs3 
+ecoregs_tmp = ecoregs3#[order(ecoregs2$area, decreasing = TRUE),] # modified by @javier (26.07.13)
 ecoregs_tmp2 = ecoregs_tmp[-ecoregs_tmp$ecoregs<0,] # added by @javier (26.07.13)
 ecoregs = ecoregs_tmp2#[600:610,] #changed by @javier
 parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
