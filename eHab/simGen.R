@@ -220,7 +220,7 @@ ecoregs = unique(ecoregions@data[,ecoID])
 ecoregions$area =  sapply(ecoregions@polygons, getAreaPolygons)
 ecoregs2 = data.frame(ecoregs = ecoregs, area = sapply(ecoregs, 
                                                        FUN = function(x) sum(ecoregions$area[ecoregions@data[,ecoID] == x])))
-ecoregs_tmp = ecoregs2[order(ecoregs2$area, decreasing = TRUE),] # modified by @javier (26.07.13)
+ecoregs_tmp = ecoregs2#[order(ecoregs2$area, decreasing = TRUE),] # modified by @javier (26.07.13)
 ecoregs_tmp2 = ecoregs_tmp[-ecoregs_tmp$ecoregs<0,] # added by @javier (26.07.13)
 ecoregs = ecoregs_tmp2#[600:610,] #changed by @javier
 parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
