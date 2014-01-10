@@ -16,7 +16,7 @@ library(rgdal)
 args = commandArgs(trailing = TRUE)
 argss = strsplit(args, "=") # split arguments by '='
 
-wind = .Platform$OS.type == "windows"
+#wind = .Platform$OS.type == "windows"
 sysinf = Sys.info()
 comp = sysinf[["nodename"]]
 login = sysinf[["login"]]
@@ -185,10 +185,10 @@ mecohri = function(ecoreg, ecoregions, ecoregs, ecoID,...) {
   ids = which(ecoreg %in% ecoregs)
   
   	# write anyway results to csv file!
-	write.table(ress$hriRes, file = "hriRes.csv",sep=',', append=TRUE, row.names=FALSE,col.names = ifelse(exists("hriRes.csv"), TRUE, FALSE))
-	write.table(ress$hriRes2, file = "hriRes2.csv",sep=',',append=TRUE, row.names=FALSE,col.names = ifelse(exists("hriRes2.csv"), TRUE, FALSE))
-	write.table(ress$hriInRes, file = "hriInRes.csv",sep=',',append=TRUE, row.names=FALSE,col.names = ifelse(exists("hriInRes.csv"), TRUE, FALSE))
-	write.table(ress$hriInRes2, file = "hriInRes2.csv",sep=',',append=TRUE, row.names=FALSE,col.names = ifelse(exists("hriInRes2.csv"), TRUE, FALSE))
+	write.table(ress$hriRes, file = paste(ecoreg,"_hriRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	write.table(ress$hriRes2, file = paste(ecoreg,"_hriRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	write.table(ress$hriInRes, file = paste(ecoreg,"_hriInRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	write.table(ress$hriInRes2, file = paste(ecoreg,"_hriInRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
 	write.table(ress$errors, file = "errors.csv",sep=',',append=TRUE, row.names=FALSE)
 	
   if (!is.null(ress) && length(ress)>1 && dim(ress$hriRes)[1]!=0) { # changed by Javier (26.07.13) and updated (29.07.13) # ress!=-999
@@ -222,7 +222,7 @@ ecoregs2 = data.frame(ecoregs = ecoregs, area = sapply(ecoregs,
                                                        FUN = function(x) sum(ecoregions$area[ecoregions@data[,ecoID] == x])))
 ecoregs_tmp = ecoregs2[order(ecoregs2$area, decreasing = TRUE),] # modified by @javier (26.07.13)
 ecoregs_tmp2 = ecoregs_tmp[-ecoregs_tmp$ecoregs<0,] # added by @javier (26.07.13)
-ecoregs = ecoregs_tmp2#[2,] changed by @javier
+ecoregs = ecoregs_tmp2#[600:610,] #changed by @javier
 parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
 
 
@@ -284,6 +284,11 @@ if (nclus > 1 & length(ecoregions) > 3) {
 
 print(s4)
 
+system('cat header.txt *_hriRes.csv | grep -v - > hriRes.csv')
+system('cat header.txt *_hriRes2.csv | grep -v - > hriRes2.csv')
+system('cat header.txt *_hriInRes.csv | grep -v - > hriInRes.csv')
+system('cat header.txt *_hriInRes2.csv | grep -v - > hriInRes2.csv')
+print('DONE')
 #write.csv(hriRes, file = "hriRes.csv")
 #write.csv(hriRes2, file = "hriRes2.csv")
 #write.csv(hriInRes, file = "hriInRes.csv")
