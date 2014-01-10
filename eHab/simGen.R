@@ -37,7 +37,7 @@ wdpaid = "WDPA_ID"     # The column name giving the id of the parks/polygons
 ecoID = "eco_id"      # The column name giving the ecoregion id in the ecoregions shapefile
 inddir = "Variables"  # The directory of the tiff files with the indicator variables
 minVar = 1
-nclus = 15 # 8 max
+nclus = 10 # 8 max
 
 
 # The default parameters are the ones above. 
