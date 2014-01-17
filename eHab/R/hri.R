@@ -19,7 +19,7 @@ hri = function(indicators = NULL, habitat = NULL, geometry = NULL, populationDen
      habitat@bbox = habitat@bbox[1:2,]
   }
 
-  pHab <<- pHabitat(indicators = indicators, habitat = habitat, forecast = forecast, ...) # changed by @javier (26.07.13)
+  pHab <- pHabitat(indicators = indicators, habitat = habitat, forecast = forecast, ...) # changed by @javier (26.07.13)
   if (!is.null(geometry)) habitat = pa
   if (!is(pHab,"try-error") && inherits(habitat, "SpatialPolygons")) {
     polyData = attr(pHab, "polyData")

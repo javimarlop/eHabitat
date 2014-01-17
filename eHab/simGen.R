@@ -37,7 +37,7 @@ wdpaid = "WDPA_ID"     # The column name giving the id of the parks/polygons
 ecoID = "eco_id"      # The column name giving the ecoregion id in the ecoregions shapefile
 inddir = "Variables"  # The directory of the tiff files with the indicator variables
 minVar = 1
-nclus = 10 # 8 max
+#nclus = 10 # 8 max
 
 
 # The default parameters are the ones above. 
@@ -221,15 +221,17 @@ ecoregions$area =  sapply(ecoregions@polygons, getAreaPolygons)
 ecoregs2 = data.frame(ecoregs = ecoregs, area = sapply(ecoregs, 
                                                        FUN = function(x) sum(ecoregions$area[ecoregions@data[,ecoID] == x])))
 ecoregs2[-827,]->ecoregs3 
-ecoregs_tmp = ecoregs3#[order(ecoregs2$area, decreasing = TRUE),] # modified by @javier (26.07.13)
+ecoregs_tmp = ecoregs3[order(ecoregs3$area, decreasing = TRUE),] # modified by @javier (26.07.13)
 ecoregs_tmp2 = ecoregs_tmp[-ecoregs_tmp$ecoregs<0,] # added by @javier (26.07.13)
-ecoregs = ecoregs_tmp2#[600:610,] #changed by @javier
+
+ecoregs = ecoregs_tmp2[c(2,4,10),] #changed by @javier
 parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
 
 
 # Set up for parallelization if necessary
-if (nclus > 1 & length(ecoregions) > 3) { 
-  print('nclus > 1; launching mecohri!') # @javier 29.07.13
+#if (nclus > 1 & length(ecoregions) > 3) { 
+ nclus <- 3
+  print('nclus 6; launching mecohri!') # @javier 29.07.13
   library(parallel)
   cl = makeCluster(nclus, outfile = "")
   clusterEvalQ(cl, library(eHab))
@@ -246,15 +248,61 @@ if (nclus > 1 & length(ecoregions) > 3) {
 
 
  stopCluster(cl)
-} else {
-  print('nclus = 1; launching mecohri!') # @javier 29.07.13
+
+ecoregs = ecoregs_tmp2[c(1,3,5:9,11:25),] #changed by @javier
+parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
+
+
+# Set up for parallelization if necessary
+#if (nclus > 1 & length(ecoregions) > 3) { 
+ nclus <- 6
+  print('nclus 6; launching mecohri!') # @javier 29.07.13
+  library(parallel)
+  cl = makeCluster(nclus, outfile = "")
+  clusterEvalQ(cl, library(eHab))
+#  closeAllConnections()
+
+# Using clusterApplyLB, as it seems to be the only parallel function that properly
+# balances the workload on the processors, i.e., new tasks are distributed before
+# all nodes have returned.
+  s3 = system.time(results <- clusterApplyLB(cl, ecoregs$ecoregs, fun = mecohri, # call to mecohri @javier
+      ecoregions = ecoregions, ecoregs = ecoregs$ecoregs, parks = parks, 
+      indicators = indicators, pvals = seq(0.05, 1, 0.05), tiffdir = tiffdir, 
+      pngdir = pngdir, hriRes = NULL, hriRes2 = NULL, minVar = minVar, 
+      ecoBuffer = ecoBuffer, wdpaid = wdpaid, ecoID = ecoID))
+
+
+ stopCluster(cl)
+ #} #else {
+  # print('nclus = 1; launching mecohri!') # @javier 29.07.13
   # We are not doing parallel processing
-  s4 = system.time(results <- sapply(ecoregs$ecoregs, FUN = mecohri, # call to mecohri @javier
-                                           ecoregions = ecoregions, ecoregs = ecoregs$ecoregs, parks = parks, 
-                                           indicators = indicators, pvals = seq(0.05, 1, 0.05), tiffdir = tiffdir, 
-                                           pngdir = pngdir, hriRes = NULL, hriRes2 = NULL, minVar = minVar, 
-                                           ecoBuffer = ecoBuffer, wdpaid = wdpaid, ecoID = ecoID))
-}
+  # s4 = system.time(results <- sapply(ecoregs$ecoregs, FUN = mecohri, # call to mecohri @javier
+                                           # ecoregions = ecoregions, ecoregs = ecoregs$ecoregs, parks = parks, 
+                                           # indicators = indicators, pvals = seq(0.05, 1, 0.05), tiffdir = tiffdir, 
+                                           # pngdir = pngdir, hriRes = NULL, hriRes2 = NULL, minVar = minVar, 
+                                           # ecoBuffer = ecoBuffer, wdpaid = wdpaid, ecoID = ecoID))
+# }
+
+ecoregs = ecoregs_tmp2[26:825,] #changed by @javier
+
+nclus <- 8
+  print('nclus 10; launching mecohri!') # @javier 29.07.13
+  library(parallel)
+  cl = makeCluster(nclus, outfile = "")
+  clusterEvalQ(cl, library(eHab))
+#  closeAllConnections()
+
+# Using clusterApplyLB, as it seems to be the only parallel function that properly
+# balances the workload on the processors, i.e., new tasks are distributed before
+# all nodes have returned.
+  s3 = system.time(results <- clusterApplyLB(cl, ecoregs$ecoregs, fun = mecohri, # call to mecohri @javier
+      ecoregions = ecoregions, ecoregs = ecoregs$ecoregs, parks = parks, 
+      indicators = indicators, pvals = seq(0.05, 1, 0.05), tiffdir = tiffdir, 
+      pngdir = pngdir, hriRes = NULL, hriRes2 = NULL, minVar = minVar, 
+      ecoBuffer = ecoBuffer, wdpaid = wdpaid, ecoID = ecoID))
+
+
+ stopCluster(cl)
 
 # This is just to be able to check individual ecoregions with the ecohri function @jon; It skips the paralell and other funtions in the mecohri @javier
 #if (FALSE) { 
