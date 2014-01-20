@@ -273,15 +273,16 @@ for (iie in istart:length(ecoregs)) {
                 hric = attr(hriLoc2, "hri")
                 hric = NULL
 
-											  			print(paste(ecoregs[iie]))
+				#print(paste(ecoregs[iie]))
+				#print(paste(hriRes[ipark,]))
 			
 			write.table(hriRes[ipark,], file = paste(ecoregs[iie],"_hriRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
-	write.table(hriRes2[ipark,], file = paste(ecoregs[iie],"_hriRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
-	write.table(hriInRes[ipark,], file = paste(ecoregs[iie],"_hriInRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
-	write.table(hriInRes2[ipark,], file = paste(ecoregs[iie],"_hriInRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
-	write.table(errors[[ipark]], file = "errors.csv",sep=',',append=TRUE, row.names=FALSE)
+			write.table(hriRes2[ipark,], file = paste(ecoregs[iie],"_hriRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
+			write.table(hriInRes[ipark,], file = paste(ecoregs[iie],"_hriInRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
+			write.table(hriInRes2[ipark,], file = paste(ecoregs[iie],"_hriInRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
+			write.table(errors[[ipark]], file = "errors.csv",sep=',',append=TRUE, row.names=FALSE)
 			
-			print('###### csv?')
+			print(paste('###### new line in csv for ecoregion',ecoregs[iie]))
 				
                 if (is.null(hric)) hric = hriCalc(hriLoc2, pa, pvals)
                 hriRes2[ipark,] = c(list(paid, ieco), as.list(hric$out_pHab))

@@ -1,4 +1,4 @@
-ecohri = function(ecoregions = NULL, parks, indicators, ecoID = names(ecoregions)[1],
+eccohri = function(ecoregions = NULL, parks, indicators, ecoID = names(ecoregions)[1],
   pvals = seq(0.05, 1, 0.05), tiffdir = "tiffs", pngdir = "nopng",
   hriRes = NULL, hriRes2 = NULL, hriInRes = NULL, hriInRes2 = NULL, 
   minVar = NULL, istart = 1, tparks = 0, ecoBuffer = 1,

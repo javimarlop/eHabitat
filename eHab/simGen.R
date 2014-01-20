@@ -185,11 +185,11 @@ mecohri = function(ecoreg, ecoregions, ecoregs, ecoID,...) {
   ids = which(ecoreg %in% ecoregs)
   
   	# write anyway results to csv file!
-	write.table(ress$hriRes, file = paste(ecoreg,"_hriRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
-	write.table(ress$hriRes2, file = paste(ecoreg,"_hriRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
-	write.table(ress$hriInRes, file = paste(ecoreg,"_hriInRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
-	write.table(ress$hriInRes2, file = paste(ecoreg,"_hriInRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
-	write.table(ress$errors, file = "errors.csv",sep=',',append=TRUE, row.names=FALSE)
+	#write.table(ress$hriRes, file = paste(ecoreg,"_hriRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	#write.table(ress$hriRes2, file = paste(ecoreg,"_hriRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	#write.table(ress$hriInRes, file = paste(ecoreg,"_hriInRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	#write.table(ress$hriInRes2, file = paste(ecoreg,"_hriInRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	#write.table(ress$errors, file = "errors.csv",sep=',',append=TRUE, row.names=FALSE)
 	
   if (!is.null(ress) && length(ress)>1 && dim(ress$hriRes)[1]!=0) { # changed by Javier (26.07.13) and updated (29.07.13) # ress!=-999
     print(paste("**** mecohri ", ecoreg, "tiles", attr(ress,"tr")$n, "parks", sum(!is.na(ress$hriRes[,1])), "****"))
@@ -248,6 +248,7 @@ parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
 
 
  stopCluster(cl)
+ removeTmpFiles(h=0)
 
 ecoregs = ecoregs_tmp2[c(1,3,5:9,11:25),] #changed by @javier
 parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
@@ -273,6 +274,7 @@ parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
 
 
  stopCluster(cl)
+ removeTmpFiles(h=0)
  #} #else {
   # print('nclus = 1; launching mecohri!') # @javier 29.07.13
   # We are not doing parallel processing
@@ -285,7 +287,7 @@ parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
 
 ecoregs = ecoregs_tmp2[26:825,] #changed by @javier
 
-nclus <- 8
+nclus <- 6 # before was 8
   print('nclus 10; launching mecohri!') # @javier 29.07.13
   library(parallel)
   cl = makeCluster(nclus, outfile = "")
