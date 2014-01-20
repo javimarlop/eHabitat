@@ -185,11 +185,11 @@ mecohri = function(ecoreg, ecoregions, ecoregs, ecoID,...) {
   ids = which(ecoreg %in% ecoregs)
   
   	# write anyway results to csv file!
-	write.table(ress$hriRes, file = paste(ecoreg,"_hriRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
-	write.table(ress$hriRes2, file = paste(ecoreg,"_hriRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
-	write.table(ress$hriInRes, file = paste(ecoreg,"_hriInRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
-	write.table(ress$hriInRes2, file = paste(ecoreg,"_hriInRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
-	write.table(ress$errors, file = "errors.csv",sep=',',append=TRUE, row.names=FALSE)
+	# write.table(ress$hriRes, file = paste(ecoreg,"_hriRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	# write.table(ress$hriRes2, file = paste(ecoreg,"_hriRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	# write.table(ress$hriInRes, file = paste(ecoreg,"_hriInRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	# write.table(ress$hriInRes2, file = paste(ecoreg,"_hriInRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
+	# write.table(ress$errors, file = "errors.csv",sep=',',append=TRUE, row.names=FALSE)
 	
   if (!is.null(ress) && length(ress)>1 && dim(ress$hriRes)[1]!=0) { # changed by Javier (26.07.13) and updated (29.07.13) # ress!=-999
     print(paste("**** mecohri ", ecoreg, "tiles", attr(ress,"tr")$n, "parks", sum(!is.na(ress$hriRes[,1])), "****"))
@@ -260,7 +260,7 @@ print('DONE')
 #write.csv(hriInRes2, file = "hriInRes2.csv")
 #write.csv(errors, file = "errors.csv")
 
-
+removeTmpFiles(h=0)
 
 
 

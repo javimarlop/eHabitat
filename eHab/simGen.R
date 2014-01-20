@@ -337,6 +337,9 @@ system('cat header.txt *_hriRes.csv | grep -v - > hriRes.csv')
 system('cat header.txt *_hriRes2.csv | grep -v - > hriRes2.csv')
 system('cat header.txt *_hriInRes.csv | grep -v - > hriInRes.csv')
 system('cat header.txt *_hriInRes2.csv | grep -v - > hriInRes2.csv')
+
+removeTmpFiles(h=0)
+
 print('DONE')
 #write.csv(hriRes, file = "hriRes.csv")
 #write.csv(hriRes2, file = "hriRes2.csv")

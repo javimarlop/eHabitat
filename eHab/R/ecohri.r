@@ -272,9 +272,21 @@ for (iie in istart:length(ecoregs)) {
 				 print('done mst tiff')
                 hric = attr(hriLoc2, "hri")
                 hric = NULL
+
+											  			print(paste(ecoregs[iie]))
+			
+			write.table(hriRes[ipark,], file = paste(ecoregs[iie],"_hriRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
+	write.table(hriRes2[ipark,], file = paste(ecoregs[iie],"_hriRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
+	write.table(hriInRes[ipark,], file = paste(ecoregs[iie],"_hriInRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
+	write.table(hriInRes2[ipark,], file = paste(ecoregs[iie],"_hriInRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE, append=TRUE)
+	write.table(errors[[ipark]], file = "errors.csv",sep=',',append=TRUE, row.names=FALSE)
+			
+			print('###### csv?')
+				
                 if (is.null(hric)) hric = hriCalc(hriLoc2, pa, pvals)
                 hriRes2[ipark,] = c(list(paid, ieco), as.list(hric$out_pHab))
                 hriInRes2[ipark,] = c(list(paid, ieco), as.list(hric$in_pHab))
+			
               }
             } else { # process NOT taking place in memory! @javier
               rloc1 = raster(pHab1)
@@ -286,6 +298,7 @@ for (iie in istart:length(ecoregs)) {
 				print('writting tmp mst rasters')
               }
               s5 = 0
+			  
             }
             t4 = proc.time()[[1]]
             tts = c(cpm, s1,s2,s3,s4,s5,round(t2-t1, 2),round(t4-t3,2))
@@ -293,6 +306,7 @@ for (iie in istart:length(ecoregs)) {
                 "pa", jpark, "of", length(paids), "tpark", tparks, "of", nparks,
             paste(sprintf("%3.3f",ifelse(cpm,hric[floor(mean(1:length(pvals))),2],0)), collapse = " ")))      
             print(tts)
+		
           }
         } else {
           hriRes[ipark,] = -999
@@ -303,6 +317,7 @@ for (iie in istart:length(ecoregs)) {
               "sum(rowSums(is.na(pDat)) == 0)", sum(rowSums(is.na(pDat)) == 0)))
           paErr = c(paErr, paid)
         }
+			
       }
     }
 
@@ -380,7 +395,7 @@ for (iie in istart:length(ecoregs)) {
   file.remove(fls) -> kk
   print(paste('file ', fls,' removed:',kk,sep=''))
     } #bracket1_end
-  
+    
   } # This bracket is the end of the for-loop starting at line 96 (looping over 60 parks at a time) @jskoien
 
 ####################################################################################################
@@ -389,6 +404,9 @@ for (iie in istart:length(ecoregs)) {
   s44 = s33-s22
   print(s44)
   if (exists("trr")) trr = c(trr, tr) else trr = tr
+  
+
+  
 } #@javier
 if (!keepErrors) {
   if (sum(is.na(hriRes[,1])) > 0) {
@@ -418,7 +436,8 @@ if (!is.null(minVar)) {
   res1$hriRes2 = hriRes2
 }
 if (exists("trr")) attr(res1, "tr") = trr
-res1
+res1	
+
 print(res1)
 #file.remove(c(fn7,fn8,fn9,fn10,fn11))->kk2
 #print(paste('temp files removed: ',kk2,sep=''))
