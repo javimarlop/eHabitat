@@ -184,6 +184,7 @@ mecohri = function(ecoreg, ecoregions, ecoregs, ecoID,...) {
   } else ress = NULL
   ids = which(ecoreg %in% ecoregs)
   
+ system('mv tiffs/*.tif /home/majavie/tiffs')
   	# write anyway results to csv file!
 	#write.table(ress$hriRes, file = paste(ecoreg,"_hriRes.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
 	#write.table(ress$hriRes2, file = paste(ecoreg,"_hriRes2.csv",sep=''),sep=',', row.names=FALSE,col.names = FALSE)
@@ -234,7 +235,9 @@ parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
   print('nclus 6; launching mecohri!') # @javier 29.07.13
   library(parallel)
   cl = makeCluster(nclus, outfile = "")
-  clusterEvalQ(cl, library(eHab))
+  clusterEvalQ(cl, {library(eHab)
+  rasterOptions(tmpdir='/local1/majavie/tmp/')
+  })
 #  closeAllConnections()
 
 # Using clusterApplyLB, as it seems to be the only parallel function that properly
@@ -260,7 +263,9 @@ parks$area = sapply(parks@polygons, getAreaPolygons)/1e6
   print('nclus 6; launching mecohri!') # @javier 29.07.13
   library(parallel)
   cl = makeCluster(nclus, outfile = "")
-  clusterEvalQ(cl, library(eHab))
+  clusterEvalQ(cl, {library(eHab)
+  rasterOptions(tmpdir='/local1/majavie/tmp/')
+  })
 #  closeAllConnections()
 
 # Using clusterApplyLB, as it seems to be the only parallel function that properly
@@ -291,7 +296,9 @@ nclus <- 6 # before was 8
   print('nclus 10; launching mecohri!') # @javier 29.07.13
   library(parallel)
   cl = makeCluster(nclus, outfile = "")
-  clusterEvalQ(cl, library(eHab))
+  clusterEvalQ(cl, {library(eHab)
+  rasterOptions(tmpdir='/local1/majavie/tmp/')
+  })
 #  closeAllConnections()
 
 # Using clusterApplyLB, as it seems to be the only parallel function that properly
