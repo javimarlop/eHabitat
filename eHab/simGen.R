@@ -340,7 +340,7 @@ nclus <- 6 # before was 8
 #    }
 #  }
 
-print(s4)
+#print(s4)
 
 system('cat header.txt *_hriRes.csv | grep -v - > hriRes.csv')
 system('cat header.txt *_hriRes2.csv | grep -v - > hriRes2.csv')
