@@ -33,7 +33,7 @@ pngdir = "nopng"      # nopng gives no png output, otherwise they are dumped in 
 ecoBuffer = 250000    # The size of the ecobuffer outside the ecoregion of the park - must be relative to the projection of the data
 parkdir = "parks/"
 ecodir = "ecoregions/"
-wdpaid = "WDPA_ID"     # The column name giving the id of the parks/polygons
+wdpaid = "wdpa_id"     # The column name giving the id of the parks/polygons
 ecoID = "eco_id"      # The column name giving the ecoregion id in the ecoregions shapefile
 inddir = "Variables"  # The directory of the tiff files with the indicator variables
 minVar = 1
@@ -133,7 +133,7 @@ if (minVar == 1) {                # minVarFuncDict can be added as an argument t
 
     print(s01[[1]])
     print(paste("will do second attempt to find ecoregions of ", length(leids),"parks"))
-    pps = matrix(NA, nrow = length(leids), ncol = 10) 
+    pps = matrix(NA, nrow = length(leids), ncol = 20) # 10
 
     if(length(leids)>0){ #begin_a
     for (il in 1:length(leids)) {
